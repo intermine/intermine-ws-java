@@ -10,12 +10,21 @@ IMBedding = (function() {
     var placeholder = '#placeholder';
     var templateResultsPath = "/service/template/results";
     var queryResultsPath = "/service/query/results";
-    var availableTemplatesPath = "/service/templates";
+    var availableTemplatesPath = "/service/templates/json";
+    var possibleValuesPath = "/service/path/values";
+    var modelPath = "/service/model/json";
     var getColumnClass = function(index) {
         return ((index % 2 == 0) ? "imbedded-column-even" : "imbedded-column-odd");
     };
     var getRowClass = function(index) {
         return ((index % 2 == 0) ? "imbedded-row-even" : "imbedded-row-odd");
+    };
+
+    var defaultTemplateCallback = function(data) {
+        window.im_templates = data.templates;
+    };
+    var defaultModelCallback = function(data) {
+        window.im_model = data.model;
     };
 
     var addCommas = function(nStr, separator) {
@@ -30,12 +39,42 @@ IMBedding = (function() {
         return x1 + x2;
     }
 
+    var decamelise = function(str) {
+        var chrs = str.split("");
+        var newStr = "";
+        var lastChrWasLower = false;
+        for (var i in chrs) {
+            var ch = chrs[i];
+            var thisIsUpper = (ch.match(/[A-Z]/) != null);
+            if (lastChrWasLower && thisIsUpper) {
+                newStr += " ";
+                newStr += ch.toLowerCase();
+            } else {
+                newStr += ch;
+            }
+            lastChrWasLower = !thisIsUpper;
+        }
+        return newStr;
+    };
+
+    // Defines a pattern to assess what kinds of attributes we don't want to see.
+    var uglyAttributes = /^primaryIdentifier$/;
+
     var mungeHeader = function(header) {
         var parts = header.split(" > ");
         if (parts.length == 1) {
-            return parts[0];
+            return decamelise(parts[0]);
         } else {
-            var ret = parts.slice(parts.length - 2, parts.length).join(" ");
+            var retParts;
+            if (uglyAttributes.test(parts[parts.length - 1])) {
+                retParts = parts.slice(parts.length - 2, parts.length - 1);
+            } else {
+                retParts = parts.slice(parts.length - 2, parts.length);
+            }
+            for (var i in retParts) {
+                retParts[i] = decamelise(retParts[i]);
+            }
+            var ret = retParts.join(" ");
             return ret;
         }
     };
@@ -69,6 +108,7 @@ IMBedding = (function() {
         mineLinkText: "View in Mine",
         nextText: "Next",
         onTitleClick: "collapse",
+        onTableToggle: function(table) {},
         openOnLoad: false,
         previousText: "Previous",
         queryTitleText: null,
@@ -98,7 +138,10 @@ IMBedding = (function() {
         }
         if ((! ret.match(/\/$/)) && (! url.match(/^\//))) {
             ret += "/";
+        } else if (url.match(/^\//)) {
+            ret = ret.replace(/\/$/, '');
         }
+
         return ret + url;
     };
 
@@ -174,6 +217,7 @@ IMBedding = (function() {
                 });
             });
 
+            this.scrollContainer = jQuery('<div class="imbedded-scroll-container"></div>');
             this.table = jQuery('<table style="display: none;" id="imbedded-table-' 
                     + this.uid + '" class="imbedded-table"></table>');
 
@@ -182,7 +226,7 @@ IMBedding = (function() {
             for (var i = 0; i < data.views.length; i++) {
                 var cell = document.createElement("td");
                 cell.setAttribute("class", "imbedded-cell imbedded-column-header");
-                cell.innerHTML = this.options.headerMunger(data.columnHeaders[i]);
+                cell.innerHTML = this.options.headerMunger(data.columnHeaders[i], i, this.uid);
                 cell.setAttribute("title", data.columnHeaders[i]);
                 this.colHeaderRow.append(cell);
             }
@@ -234,6 +278,11 @@ IMBedding = (function() {
                     outer.count = countData.count;
                     if (countData.count == 0) {
                         outer.title.unbind("click");
+                        outer.expandHelp.remove();
+                        outer.title.css({cursor: "default"});
+                        if (outer.options.openOnLoad) {
+                            outer.resizeTable();
+                        }
                     }
                     outer.updateVisibilityOfPagers();
                 }, 
@@ -259,10 +308,11 @@ IMBedding = (function() {
 
             // Slot it all together
             this.titlebox.append(this.title);
+            this.scrollContainer.append(this.table);
             this.container.append(this.titlebox)
                         .append(this.nextLink)
                         .append(this.prevLink)
-                        .append(this.table);
+                        .append(this.scrollContainer);
 
             if (this.options.showExportLinks) {
                 this.container.append(this.csvLink)
@@ -332,22 +382,29 @@ IMBedding = (function() {
             var outer = this;
             var action = function() {
                 outer.toggleExpandHelpText();
-                outer.table.fadeToggle('fast', function() {
+                outer.table.slideToggle(function() {
                     outer.fitContainerToTable();
-                    outer.csvLink.toggle();
+                    if (jQuery(outer.table).is(':visible')) {
+                        outer.csvLink.show();
+                        outer.tsvLink.show();
+                        outer.mineLink.show();
+                    } else {
+                        outer.csvLink.hide();
+                        outer.tsvLink.hide();
+                        outer.mineLink.hide();
+                    }
                     if (outer.csvLink.is(':visible')) {
                         outer.csvLink.css({display: 'inline'});
                     }
-                    outer.tsvLink.toggle();
                     if (outer.tsvLink.is(':visible')) {
                         outer.tsvLink.css({display: 'inline'});
                     }
-                    outer.mineLink.toggle();
                     if (outer.mineLink.is(':visible')) {
                         outer.mineLink.css({display: 'inline'});
                     }
                     outer.updateVisibilityOfPagers();
                 });
+                outer.options.onTableToggle(outer);
             };
             var url = this.localiseUrl(this.getPageUrl());
             if (! this.isFilledIn) {
@@ -411,33 +468,23 @@ IMBedding = (function() {
         };
 
         this.containerNeedsExpanding = function() {
-            return this.table.attr("offsetWidth") >= this.container.attr("offsetWidth");
+            return this.table.attr("offsetWidth") >= this.scrollContainer.attr("offsetWidth");
         };
 
         this.expandContainer = function() {
             if (! this.defaultContainerwidth) {
-                this.defaultContainerwidth = this.container.attr("offsetWidth") + 'px';
+                this.defaultContainerwidth = this.scrollContainer.attr("offsetWidth") + 'px';
             }
-            this.container.css({width: (this.table.attr("offsetWidth") + 1) + 'px'});
+            this.scrollContainer.css({width: (this.table.attr("offsetWidth") + 1) + 'px'});
         };
 
         this.tableIsHidden = function() {
             return this.table.attr("offsetWidth") == 0;
         };
 
-        this.returnContainerToOriginalSize = function() {
-            if (this.defaultContainerwidth) {
-                this.container.css({width: this.defaultContainerwidth});
-            }
-        };
-
         // Perform the resize
         this.fitContainerToTable = function() {
-            if (this.containerNeedsExpanding()) {
-                this.expandContainer();
-            } else if (this.tableIsHidden()) {
-                this.returnContainerToOriginalSize();
-            }
+            this.scrollContainer.css({width: this.container.attr("clientWidth") + 'px'});
         };
 
         // get a page url using the base url 
@@ -527,7 +574,7 @@ IMBedding = (function() {
             this.lastRow = resultCount + resultSet.start;
             this.isFilledIn = true;
             if (this.options.afterTableUpdate) {
-                this.options.afterTableUpdate(this.table, resultSet);
+                this.options.afterTableUpdate(this, resultSet);
             }
             IMBedding.afterTableUpdate(this.table, resultSet);
         };
@@ -581,7 +628,6 @@ IMBedding = (function() {
     };
 
     var getResults = function(url, data, target, options) {
-        var callback = getCallback(target, options);
         var errorHandler = getErrorHandler(options);
         if (! data.format) {
             data.format = "jsonptable";
@@ -595,25 +641,48 @@ IMBedding = (function() {
             jQuery(target).empty().append(throbber);
         }
 
-        jQuery.jsonp({
-            url: url, 
-            data: data, 
-            success: callback, 
-            callbackParameter: "callback",
-            error: errorHandler
-        });
+        if (data.format == "jsonobjects" || data.format == "jsonrows" || data.format == "jsoncount") {
+            // The user expects us to make a same-domain request.
+            var callback = target;
+            jQuery.getJSON(url, data, target);
+        } else {
+            var callback = getCallback(target, options);
+            jQuery.jsonp({
+                url: url, 
+                data: data, 
+                success: callback, 
+                callbackParameter: "callback",
+                error: errorHandler,
+                traditional: true
+            });
+        }
     };
 
-    var getConstraints = function(constraints) {
-        var constraintsString = "";
-        for (var i = 0; i < constraints.length; i++) {
-            var whereClause = constraints[i];
-            var whereString = "<constraint ";
-            for (attr in whereClause) {
+    var makeConstraint = function(whereClause) {
+        var i = 0, len = 0, whereString = "<constraint ", attr = null;
+        for (attr in whereClause) {
+            if (attr != "values") {
                 whereString += attr + '="' + escapeOperator(whereClause[attr]) + '" ';
             }
+        }
+        if (whereClause.values) {
+            whereString += ">";
+            len = whereString.values.length;
+            while(i++ < len) {
+                whereString += "<value>" + whereString.values[i] + "</value>";
+            }
+            whereString += "</constraint>";
+        } else {
             whereString += "/>";
-            constraintsString += whereString;
+        }
+        return whereString;
+    }
+
+
+    var getConstraints = function(constraints) {
+        var constraintsString = "", cl = constraints.length, i = 0;
+        while (i++ < cl) {
+            constraintsString += makeConstraint(constraints[i]);
         }
         return constraintsString;
     };
@@ -623,7 +692,13 @@ IMBedding = (function() {
             return source;
         } else if (source instanceof Object) {
             var query = jQuery.extend({}, defaultQuery, source);
-            var xmlString = '<query model="';
+            var xmlString = '<query '
+
+            if ("title" in query) {
+                xmlString += 'title="' + query.title + '" ';
+            }
+
+            xmlString += 'model="';
             if ("model" in query) {
                 xmlString += query.model;
             } else if ("from" in query) {
@@ -692,11 +767,11 @@ IMBedding = (function() {
         scriptNode.src = scriptPath;
 
         var headNode = document.getElementsByTagName('HEAD');
-        if (headNode[0] != null)
+        if (headNode[0] != null) {
             headNode[0].appendChild(scriptNode);
+        }
 
-        if (callback != null)    
-        {
+        if (callback != null) {
             scriptNode.onreadystagechange = callback;            
             scriptNode.onload = callback;
         }
@@ -761,6 +836,49 @@ IMBedding = (function() {
                 data.query = getXML(query);
                 var url = localiseUrl(queryResultsPath, options);
                 getResults(url, data, target, options);
+            });
+        },
+        loadPossibleValues: function(path, subclasses, options) {
+            loadDependencies(function() {
+                var url = localiseUrl(possibleValuesPath, options);
+                var params = {path: path};
+                if (subclasses) {
+                    params.typeConstraints = JSON.stringify(subclasses);
+                }
+                options = options || {};
+                if (options.format) {
+                    params.format = options.format;
+                }
+                jQuery.jsonp({
+                    url: url, 
+                    data: params, 
+                    success: options.callback, 
+                    callbackParameter: "callback"
+                });
+            });
+        },
+        loadModel: function(options) {
+            loadDependencies(function() {
+                var url = localiseUrl(modelPath, options);
+                options = options || {};
+                var callback = options.callback || defaultModelCallback;
+                jQuery.jsonp({
+                    url: url, 
+                    success: callback, 
+                    callbackParameter: "callback"
+                });
+            });
+        },
+        loadTemplates: function(options) {
+            loadDependencies(function() {
+                var url = localiseUrl(availableTemplatesPath, options);
+                options = options || {};
+                var callback = options.callback || defaultTemplateCallback;
+                jQuery.jsonp({
+                    url: url, 
+                    success: callback, 
+                    callbackParameter: "callback"
+                });
             });
         }
     };
