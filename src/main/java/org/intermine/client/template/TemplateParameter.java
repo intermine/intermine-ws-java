@@ -1,4 +1,4 @@
-package org.intermine.webservice.client.template;
+package org.intermine.client.template;
 
 /*
  * Copyright (C) 2002-2019 FlyMine

@@ -171,10 +171,10 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
          *
          * @param parameters a List of TemplateParameter objects
          */
-        public void setTemplateParameters(List<org.intermine.webservice.client.template.TemplateParameter> parameters) {
+        public void setTemplateParameters(List<org.intermine.client.template.TemplateParameter> parameters) {
             int size = parameters.size();
             for (int i = 0; i < size; i++) {
-                org.intermine.webservice.client.template.TemplateParameter par = parameters.get(i);
+                org.intermine.client.template.TemplateParameter par = parameters.get(i);
                 int index = i + 1;
                 addParameter("constraint" + index, par.getPathId());
                 addParameter("op" + index, par.getOperation());
@@ -284,7 +284,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @param parameters the values for the templates editable constraints
      * @return number of results of specified query.
      */
-    public int getCount(String templateName, List<org.intermine.webservice.client.template.TemplateParameter> parameters) {
+    public int getCount(String templateName, List<org.intermine.client.template.TemplateParameter> parameters) {
         TemplateRequest request =
             new TemplateRequest(RequestType.POST, getUrl(), ContentType.TEXT_COUNT);
 
@@ -295,23 +295,23 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
 
     @Override
     public int getCount(TemplateQuery template) {
-        List<org.intermine.webservice.client.template.TemplateParameter> parameters = getParametersFor(template);
+        List<org.intermine.client.template.TemplateParameter> parameters = getParametersFor(template);
         return getCount(template.getName(), parameters);
     }
 
-    private static List<org.intermine.webservice.client.template.TemplateParameter> getParametersFor(TemplateQuery template) {
-        List<org.intermine.webservice.client.template.TemplateParameter> params = new ArrayList<org.intermine.webservice.client.template.TemplateParameter>();
+    private static List<org.intermine.client.template.TemplateParameter> getParametersFor(TemplateQuery template) {
+        List<org.intermine.client.template.TemplateParameter> params = new ArrayList<org.intermine.client.template.TemplateParameter>();
         for (PathConstraint pc: template.getEditableConstraints()) {
             if (template.getSwitchOffAbility(pc) != SwitchOffAbility.OFF) {
-                org.intermine.webservice.client.template.TemplateParameter tp;
+                org.intermine.client.template.TemplateParameter tp;
                 String path = pc.getPath();
                 String op = pc.getOp().toString();
                 String code = template.getConstraints().get(pc);
                 Collection<String> values = getValues(pc);
                 if (values != null) {
-                    tp = new org.intermine.webservice.client.template.TemplateParameter(path, op, values, code);
+                    tp = new org.intermine.client.template.TemplateParameter(path, op, values, code);
                 } else {
-                    tp = new org.intermine.webservice.client.template.TemplateParameter(path, op, getValue(pc), getExtraValue(pc), code);
+                    tp = new org.intermine.client.template.TemplateParameter(path, op, getValue(pc), getExtraValue(pc), code);
                 }
                 params.add(tp);
             }
@@ -329,7 +329,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return results
      */
     public List<List<String>> getAllResults(String templateName,
-            List<org.intermine.webservice.client.template.TemplateParameter> parameters) {
+            List<org.intermine.client.template.TemplateParameter> parameters) {
         return getResults(templateName, parameters, Page.DEFAULT);
     }
 
@@ -344,7 +344,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      *
      * @return A result set starting at the given index and no larger than the maximum page size.
      */
-    public List<List<String>> getResults(String templateName, List<org.intermine.webservice.client.template.TemplateParameter> parameters,
+    public List<List<String>> getResults(String templateName, List<org.intermine.client.template.TemplateParameter> parameters,
             Page page) {
         TemplateRequest request =
                 new TemplateRequest(RequestType.POST, getUrl(), ContentType.TEXT_XML);
@@ -356,7 +356,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
 
     @Override
     public List<List<String>> getResults(TemplateQuery template, Page page) {
-        List<org.intermine.webservice.client.template.TemplateParameter> parameters = getParametersFor(template);
+        List<org.intermine.client.template.TemplateParameter> parameters = getParametersFor(template);
         return getResults(template.getName(), parameters, page);
     }
 
@@ -372,7 +372,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @throws JSONException if the server returns content that cannot be parsed as JSON
      */
     public List<JSONObject> getAllJSONResults(String templateName,
-            List<org.intermine.webservice.client.template.TemplateParameter> parameters) throws JSONException {
+            List<org.intermine.client.template.TemplateParameter> parameters) throws JSONException {
         return getJSONResults(templateName, parameters, Page.DEFAULT);
     }
 
@@ -389,7 +389,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @throws JSONException if the server returns content that cannot be parsed as JSON
      */
     public List<JSONObject> getJSONResults(String templateName,
-                                           List<org.intermine.webservice.client.template.TemplateParameter> parameters, Page page) throws JSONException {
+                                           List<org.intermine.client.template.TemplateParameter> parameters, Page page) throws JSONException {
         TemplateRequest request =
                 new TemplateRequest(RequestType.POST, getUrl(), ContentType.APPLICATION_JSON_OBJ);
         request.setName(templateName);
@@ -401,7 +401,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
     @Override
     public List<JSONObject> getJSONResults(TemplateQuery template, Page page)
         throws JSONException {
-        List<org.intermine.webservice.client.template.TemplateParameter> parameters = getParametersFor(template);
+        List<org.intermine.client.template.TemplateParameter> parameters = getParametersFor(template);
         return getJSONResults(template.getName(), parameters, page);
     }
 
@@ -416,7 +416,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return results as an iterator over lists of strings
      */
     public Iterator<List<String>> getAllRowsIterator(String templateName,
-            List<org.intermine.webservice.client.template.TemplateParameter> parameters) {
+            List<org.intermine.client.template.TemplateParameter> parameters) {
         return getRowIterator(templateName, parameters, Page.DEFAULT);
     }
 
@@ -434,7 +434,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return results as an iterator over lists of strings
      */
     public Iterator<List<String>> getRowIterator(String templateName,
-                                                 List<org.intermine.webservice.client.template.TemplateParameter> parameters, Page page) {
+                                                 List<org.intermine.client.template.TemplateParameter> parameters, Page page) {
         TemplateRequest request =
                 new TemplateRequest(RequestType.POST, getUrl(), ContentType.TEXT_XML);
         request.setName(templateName);
@@ -445,7 +445,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
 
     @Override
     public Iterator<List<String>> getRowIterator(TemplateQuery template, Page page) {
-        List<org.intermine.webservice.client.template.TemplateParameter> parameters = getParametersFor(template);
+        List<org.intermine.client.template.TemplateParameter> parameters = getParametersFor(template);
         return getRowIterator(template.getName(), parameters, page);
     }
 
@@ -458,7 +458,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return a list of rows, which are each a list of cells.
      */
     public List<List<Object>> getRowsAsLists(String name,
-                                             List<org.intermine.webservice.client.template.TemplateParameter> params, Page page) {
+                                             List<org.intermine.client.template.TemplateParameter> params, Page page) {
         return getRows(name, params).getRowsAsLists();
     }
 
@@ -471,7 +471,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      *
      * @return a list of rows, which are each a list of cells.
      */
-    public List<List<Object>> getRowsAsLists(String name, List<org.intermine.webservice.client.template.TemplateParameter> params) {
+    public List<List<Object>> getRowsAsLists(String name, List<org.intermine.client.template.TemplateParameter> params) {
         return getRows(name, params).getRowsAsLists();
     }
 
@@ -484,7 +484,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return a list of rows, which are each a map from output column
      * (in alternate long and short form) to value.
      */
-    public List<Map<String, Object>> getRowsAsMaps(String name, List<org.intermine.webservice.client.template.TemplateParameter> params,
+    public List<Map<String, Object>> getRowsAsMaps(String name, List<org.intermine.client.template.TemplateParameter> params,
             Page page) {
         return getRows(name, params).getRowsAsMaps();
     }
@@ -499,7 +499,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return a list of rows, which are each a map from
      * output column (in alternate long and short form) to value.
      */
-    public List<Map<String, Object>> getRowsAsMaps(String name, List<org.intermine.webservice.client.template.TemplateParameter> params) {
+    public List<Map<String, Object>> getRowsAsMaps(String name, List<org.intermine.client.template.TemplateParameter> params) {
         return getRows(name, params).getRowsAsMaps();
     }
 
@@ -513,7 +513,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @param page The subsection of the result set to retrieve.
      * @return an iterator over the rows, where each row is a list of objects.
      */
-    public Iterator<List<Object>> getRowListIterator(String name, List<org.intermine.webservice.client.template.TemplateParameter> params,
+    public Iterator<List<Object>> getRowListIterator(String name, List<org.intermine.client.template.TemplateParameter> params,
             Page page) {
         return getRows(name, params).getListIterator();
     }
@@ -529,7 +529,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      *
      * @return an iterator over the rows, where each row is a list of objects.
      */
-    public Iterator<List<Object>> getRowListIterator(String name, List<org.intermine.webservice.client.template.TemplateParameter> params) {
+    public Iterator<List<Object>> getRowListIterator(String name, List<org.intermine.client.template.TemplateParameter> params) {
         return getRows(name, params).getListIterator();
     }
 
@@ -543,7 +543,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return an iterator over the rows, where each row is a mapping from output column to value.
      */
     public Iterator<Map<String, Object>> getRowMapIterator(String name,
-                                                           List<org.intermine.webservice.client.template.TemplateParameter> params, Page page) {
+                                                           List<org.intermine.client.template.TemplateParameter> params, Page page) {
         return getRows(name, params).getMapIterator();
     }
 
@@ -558,11 +558,11 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return an iterator over the rows, where each row is a mapping from output column to value.
      */
     public Iterator<Map<String, Object>> getRowMapIterator(String name,
-            List<org.intermine.webservice.client.template.TemplateParameter> params) {
+            List<org.intermine.client.template.TemplateParameter> params) {
         return getRows(name, params).getMapIterator();
     }
 
-    private RowResultSet getRows(String name, List<org.intermine.webservice.client.template.TemplateParameter> params) {
+    private RowResultSet getRows(String name, List<org.intermine.client.template.TemplateParameter> params) {
         TemplateQuery tq = getTemplate(name);
         if (tq == null) {
             throw new ServiceException("There is no template named " + name);
@@ -572,11 +572,11 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
 
     @Override
     protected RowResultSet getRows(TemplateQuery query, Page page) {
-        List<org.intermine.webservice.client.template.TemplateParameter> parameters = getParametersFor(query);
+        List<org.intermine.client.template.TemplateParameter> parameters = getParametersFor(query);
         return getRows(query.getName(), parameters, query.getView());
     }
 
-    private RowResultSet getRows(String name, List<org.intermine.webservice.client.template.TemplateParameter> params,
+    private RowResultSet getRows(String name, List<org.intermine.client.template.TemplateParameter> params,
             List<String> views) {
         ContentType ct = (getAPIVersion() < 8)
                 ? ContentType.APPLICATION_JSON_ROW

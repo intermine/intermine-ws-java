@@ -31,9 +31,9 @@ public class Service
 {
 
     /** The version of this client library. **/
-    public static final Version VERSION = new Version(3, 1, 0);
+    public static final Version VERSION = new Version(3, 0, 0);
 
-    private static final String VERSION_HEADER = "InterMine-Version";
+    private static final String VERSION_HEADER = "InterMine-Client-Version";
 
     private static final String USER_AGENT_HEADER = "User-Agent";
 
@@ -154,7 +154,7 @@ public class Service
     private static boolean requiresAuthentication(Request request) {
         return !(request != null && request.getServiceUrl() != null
                 && (request.getServiceUrl().endsWith("/version")
-                        || request.getServiceUrl().endsWith("/version/release")
+                        || request.getServiceUrl().endsWith("/version/intermine")
                         || request.getServiceUrl().endsWith("/model")));
     }
 
@@ -168,11 +168,7 @@ public class Service
             String encodedValue = new String(Base64.encodeBase64(authValue.getBytes()));
             request.setHeader(AUTHENTICATION_FIELD_NAME, encodedValue);
         } else if (authToken != null) {
-            if (getAPIVersion() < 14) {
-                request.setHeader(AUTHENTICATION_FIELD_NAME, "Token " + authToken);
-            } else {
-                request.setAuthToken(authToken);
-            }
+            request.setAuthToken(authToken);
         }
     }
 
@@ -216,7 +212,7 @@ public class Service
 
     /**
      * Returns service URL
-     * Example: http://www.flymine.org/query/service/query/results
+     * Example: http://www.flymine.org/flymine/service/query/results
      * @return URL
      */
     public String getUrl() {
@@ -229,7 +225,7 @@ public class Service
 
     /**
      * Returns service's root URL.
-     * Example: http://www.flymine.org/query/service
+     * Example: http://www.flymine.org/flymine/service
      * @return URL
      */
     public String getRootUrl() {
@@ -339,13 +335,5 @@ public class Service
      */
     public void clearCache() {
         apiVersion = -1;
-    }
-
-    /**
-     * @return the server's release.
-     */
-    public String getRelease() {
-        Request r = createGetRequest(getRootUrl() + "/version/release", ContentType.TEXT_PLAIN);
-        return getStringResponse(r, 0);
     }
 }
