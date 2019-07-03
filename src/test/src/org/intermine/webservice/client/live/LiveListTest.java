@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.PathQuery;
 import org.intermine.webservice.client.core.ServiceFactory;
@@ -36,7 +35,6 @@ import org.junit.Test;
 
 public class LiveListTest {
 
-    private static final Logger LOGGER = Logger.getLogger(LiveListTest.class);
     private static ListService testmine =
             new ServiceFactory(TestUtil.getRootUrl(), TestUtil.getToken()).getListService();
     private static final List<ItemList> tempLists = new ArrayList<ItemList>();
@@ -47,10 +45,10 @@ public class LiveListTest {
         if (!tempLists.isEmpty()) {
             for (ItemList i : tempLists) {
                 try {
-                    LOGGER.debug("Deleting " + i);
+                    //LOGGER.debug("Deleting " + i);
                     testmine.deleteList(i);
                 } catch (Throwable t){
-                    LOGGER.error("Error deleting " + i, t);
+                    //LOGGER.error("Error deleting " + i, t);
                 }
             }
         }
