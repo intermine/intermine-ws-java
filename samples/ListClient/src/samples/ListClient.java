@@ -15,10 +15,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.lists.ItemList;
-import org.intermine.webservice.client.results.Item;
-import org.intermine.webservice.client.services.ListService;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.lists.ItemList;
+import org.intermine.client.results.Item;
+import org.intermine.client.services.ListService;
 
 
 /**

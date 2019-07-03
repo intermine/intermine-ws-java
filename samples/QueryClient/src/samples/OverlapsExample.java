@@ -9,8 +9,8 @@ import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.PathConstraintMultitype;
 import org.intermine.pathquery.PathConstraintRange;
 import org.intermine.pathquery.PathQuery;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.services.QueryService;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.services.QueryService;
 
 public class OverlapsExample {
     

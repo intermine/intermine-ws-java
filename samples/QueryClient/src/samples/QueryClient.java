@@ -16,8 +16,8 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.PathQuery;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.results.Page;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.results.Page;
 
 
 /**

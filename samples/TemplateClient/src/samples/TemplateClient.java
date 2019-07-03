@@ -16,9 +16,9 @@ import org.apache.commons.lang.StringUtils;
 import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.PathQuery;
 import org.intermine.template.TemplateQuery;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.results.Page;
-import org.intermine.webservice.client.services.TemplateService;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.results.Page;
+import org.intermine.client.services.TemplateService;
 
 /**
  * The TemplateClient is an example of client fetching template results from InterMine web service.

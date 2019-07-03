@@ -18,8 +18,8 @@ import java.util.List;
 
 import static org.apache.commons.lang.StringUtils.repeat;
 import org.intermine.pathquery.PathQuery;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.services.QueryService;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.services.QueryService;
 
 /**
  * The QueryAPIClient is an example of query client fetching results of query from InterMine web

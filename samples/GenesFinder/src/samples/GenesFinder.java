@@ -24,13 +24,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
-import static org.intermine.webservice.client.core.ContentType.TEXT_PLAIN;
-import org.intermine.webservice.client.core.Request;
-import static org.intermine.webservice.client.core.Request.RequestType.GET;
-import org.intermine.webservice.client.core.RequestImpl;
-import org.intermine.webservice.client.core.Service;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.util.HttpConnection;
+import static org.intermine.client.core.ContentType.TEXT_PLAIN;
+import org.intermine.client.core.Request;
+import static org.intermine.client.core.Request.RequestType.GET;
+import org.intermine.client.core.RequestImpl;
+import org.intermine.client.core.Service;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.util.HttpConnection;
 import org.json.JSONObject;
 
 /**

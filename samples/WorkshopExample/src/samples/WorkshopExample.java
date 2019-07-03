@@ -22,18 +22,18 @@ import org.intermine.metadata.Model;
 import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.OrderDirection;
 import org.intermine.pathquery.PathQuery;
-import org.intermine.webservice.client.core.ServiceFactory;
-import org.intermine.webservice.client.services.ModelService;
-import org.intermine.webservice.client.services.QueryService;
-import org.intermine.webservice.client.services.TemplateService;
-import org.intermine.webservice.client.template.TemplateParameter;
+import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.services.ModelService;
+import org.intermine.client.services.QueryService;
+import org.intermine.client.services.TemplateService;
+import org.intermine.client.template.TemplateParameter;
 
 /**
  * An example web service query to be extended in the !InterMine workshop tutorial.
  **/
 public class WorkshopExample
 {
-    private static final String ROOT_URL = "http://risu.flymine.org/flymine/service";
+    private static final String ROOT_URL = "http://www.flymine.org/flymine/service";
     private static final ServiceFactory FACTORY = new ServiceFactory(ROOT_URL);
     private static final String FORMAT = "%-13s | %8s | %-11s | %s\n";
     private static final String DIVIDER = StringUtils.repeat("-", 70);
