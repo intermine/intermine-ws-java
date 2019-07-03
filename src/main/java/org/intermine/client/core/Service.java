@@ -147,6 +147,9 @@ public class Service
         applyAuthentication(request);
         HttpConnection connection = new HttpConnection(request);
         connection.setTimeout(timeout);
+        // see https://github.com/intermine/intermine-ws-java/issues/3
+        System.setProperty("javax.xml.stream.XMLOutputFactory",
+                "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
         connection.connect();
         return connection;
     }

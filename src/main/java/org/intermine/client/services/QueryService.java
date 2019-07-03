@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.intermine.client.core.ContentType;
 import org.intermine.client.core.ServiceFactory;
+import org.intermine.client.exceptions.BadRequestException;
 import org.intermine.client.exceptions.ServiceException;
 import org.intermine.client.results.JSONResult;
 import org.intermine.client.results.Page;
@@ -129,7 +130,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
          *
          * @param xml the query to be executed, in XML format
          */
-        public void setQueryXml(String xml) {
+        public void setQuery(String xml) {
             setParameter("query", xml);
         }
     }
@@ -167,7 +168,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
      */
     public int getCount(String queryXml) {
         QueryRequest request = new QueryRequest(RequestType.POST, getUrl(), ContentType.TEXT_COUNT);
-        request.setQueryXml(queryXml);
+        request.setQuery(queryXml);
         return getIntResponse(request);
     }
 
@@ -204,7 +205,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
         throws JSONException {
         QueryRequest request
             = new QueryRequest(RequestType.POST, getUrl(), ContentType.APPLICATION_JSON_OBJ);
-        request.setQueryXml(queryXml);
+        request.setQuery(queryXml);
         request.setPage(page);
         JSONResult response = getJSONResponse(request);
         return response.getObjects();
@@ -285,7 +286,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
         QueryRequest request = new QueryRequest(RequestType.POST, getUrl(),
                 ContentType.TEXT_XML);
         request.setPage(page);
-        request.setQueryXml(queryXml);
+        request.setQuery(queryXml);
         return getResponseTable(request);
     }
 
@@ -395,13 +396,14 @@ public class QueryService extends AbstractQueryService<PathQuery>
     @Override
     protected RowResultSet getRows(PathQuery query, Page page) {
         List<String> views = query.getView();
-        String queryXml = query.toXml(PathQuery.USERPROFILE_VERSION);
-        ContentType ct = (this.getAPIVersion() < 8)
-                ? ContentType.APPLICATION_JSON_ROW : ContentType.APPLICATION_JSON;
+        String queryXml = query.toXml();
         QueryRequest request =
-                new QueryRequest(RequestType.POST, getUrl(), ct);
+                new QueryRequest(RequestType.POST, getUrl(), ContentType.APPLICATION_JSON);
         request.setPage(page);
-        request.setQueryXml(queryXml);
+        if (queryXml == null || queryXml == "") {
+            throw new BadRequestException("query is empty, " + query.toString());
+        }
+        request.setQuery(queryXml);
         return getRows(request, views);
     }
 
@@ -440,7 +442,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
         }
         QueryRequest request = new QueryRequest(RequestType.POST, getUrl(),
                 ContentType.APPLICATION_JSON_ROW);
-        request.setQueryXml(query.toXml());
+        request.setQuery(query.toXml());
         request.setParameter("summaryPath", summaryPath);
         JSONResult response = getJSONResponse(request);
         try {
@@ -505,7 +507,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
         }
         QueryRequest request = new QueryRequest(RequestType.POST, getUrl(),
                 ContentType.APPLICATION_JSON_ROW);
-        request.setQueryXml(query.toXml());
+        request.setQuery(query.toXml());
         request.setPage(page);
         request.setParameter("summaryPath", summaryPath);
         JSONResult response = getJSONResponse(request);
