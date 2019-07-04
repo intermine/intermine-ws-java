@@ -48,7 +48,7 @@ public class ServiceFactory
 {
 
     private final String rootUrl;
-    private String applicationName = "InterMine-WS-Client-Java-2.0";
+    private String applicationName = "InterMine-WS-Client-Java-3.0";
     private final String userName;
     private final String userPass;
     private final String authToken;

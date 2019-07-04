@@ -14,7 +14,11 @@ import static org.intermine.pathquery.PathConstraint.getValue;
 import static org.intermine.pathquery.PathConstraint.getValues;
 import static org.intermine.pathquery.PathConstraint.getExtraValue;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +27,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.intermine.client.core.ContentType;
+import org.intermine.client.exceptions.ResultException;
 import org.intermine.client.exceptions.ServiceException;
 import org.intermine.client.results.Page;
 import org.intermine.client.results.RowResultSet;
@@ -209,9 +215,14 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return The templates the user can access.
      */
     public Map<String, TemplateQuery> getTemplates() {
-     // Have to do this or the model won't be available at the parsing stage...
-
-        getFactory().getModel();
+        try {
+            // Have to do this or the model won't be available at the parsing stage...
+            // see https://github.com/intermine/intermine/issues/2066
+            String modelXML = getFactory().getModel().toString();
+            FileUtils.writeStringToFile(new File("build/genomic_model.xml"), modelXML, "UTF-8");
+        } catch (IOException e) {
+            throw new ResultException(e);
+        }
         Request request = new RequestImpl(
                 RequestType.GET,
                 getRootUrl() + AVAILABLE_TEMPLATES,
@@ -220,7 +231,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
         Map<String, TemplateQuery> res;
         try {
             res = TemplateQueryBinding.unmarshalTemplates(
-                new InputStreamReader(connection.getResponseBodyAsStream()),
+                new StringReader(connection.getResponseBodyAsString()),
                 TemplateQuery.USERPROFILE_VERSION);
         } finally {
             connection.close();
