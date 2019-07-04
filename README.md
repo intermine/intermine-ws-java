@@ -15,13 +15,15 @@ REST interface.
 <!-- https://bintray.com/intermineorg/java-client-->
 <dependency>
     <groupId>org.intermine</groupId>
-    <artifactId>java-client</artifactId>
+    <artifactId>intermine-ws-java</artifactId>
     <version>3.0.0</version>
 </dependency>
 ```
 ### Gradle
 
-`compile 'org.intermine:intermine-java-client:3.0.0'`
+```
+compile 'org.intermine:intermine-ws-java:3.0.0'
+```
 
 ## Documentation
 
