@@ -81,7 +81,8 @@ public class ModelService extends Service
             // or fully qualified as "http://myhost:8080/mymine/models#genomic". This could be
             // useful to distinguish between generic genomic queries that will work on multiple
             // mines, and more specific ones that require a specific model.
-            Model.addModel(key + "/models#" + model.getName(), model);
+            //Model.addModel(key + "/models#" + model.getName(), model);
+            Model.addModel(model.getName(), model);
         }
         return model;
     }

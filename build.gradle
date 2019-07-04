@@ -13,6 +13,26 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'com.jfrog.bintray'
 
+sourceSets {
+  main {
+    java {
+      srcDirs = ['src/main/java', 'build/gen']
+    }
+    resources {
+      srcDirs = ['src/main/resources']
+    }
+  }
+  test {
+    java {
+      srcDirs = ['src/test/java']
+    }
+    resources {
+      srcDirs = ['src/test/resources']
+    }
+  }
+}
+
+
 group 'org.intermine'
 version '3.0.0'
 
@@ -20,7 +40,6 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
   
 repositories {
-  mavenLocal()
   jcenter()
   mavenCentral()
 }
