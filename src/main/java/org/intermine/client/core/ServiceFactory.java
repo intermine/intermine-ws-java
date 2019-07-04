@@ -57,7 +57,7 @@ public class ServiceFactory
      * Construct a service factory with a default application name. (defaults to
      * "InterMine-WS-Client-Java-$VERSION")
      * @param rootUrl the base URL for all services, it is the prefix common to all services.
-     *      Example: http://www.flymine.org/query/service
+     *      Example: http://www.flymine.org/flymine/service
      */
     public ServiceFactory(String rootUrl) {
         this.rootUrl = rootUrl;
@@ -71,7 +71,7 @@ public class ServiceFactory
      * the root url and the authorization token. Use this constructor if you need
      * to access private restricted-access resources.
      * @param rootUrl the base URL for all services, it is the prefix common to all services.
-     *      Example: http://www.flymine.org/query/service
+     *      Example: http://www.flymine.org/flymine/service
      * @param token the authorization token.
      */
     public ServiceFactory(String rootUrl, String token) {
@@ -86,7 +86,7 @@ public class ServiceFactory
      * the root url and the authorization token. Use this constructor if you need
      * to access private restricted-access resources.
      * @param rootUrl the base URL for all services, it is the prefix common to all services.
-     *      Example: http://www.flymine.org/query/service
+     *      Example: http://www.flymine.org/flymine/service
      * @param userName your user account name (usually an email address)
      * @param userPass your user account password, in plain text.
      *

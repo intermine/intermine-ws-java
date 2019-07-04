@@ -215,14 +215,7 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return The templates the user can access.
      */
     public Map<String, TemplateQuery> getTemplates() {
-        try {
-            // Have to do this or the model won't be available at the parsing stage...
-            // see https://github.com/intermine/intermine/issues/2066
-            String modelXML = getFactory().getModel().toString();
-            FileUtils.writeStringToFile(new File("build/genomic_model.xml"), modelXML, "UTF-8");
-        } catch (IOException e) {
-            throw new ResultException(e);
-        }
+        getFactory().getModel();
         Request request = new RequestImpl(
                 RequestType.GET,
                 getRootUrl() + AVAILABLE_TEMPLATES,
