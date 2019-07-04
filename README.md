@@ -25,6 +25,6 @@ REST interface.
 
 ## Documentation
 
-[javadocs](http://intermine.org/intermine-ws-java/javadoc/)
-[examples](https://github.com/intermine/intermine-ws-java-docs/)
+* [javadoc](http://intermine.org/intermine-ws-java/javadoc/)
+* [examples](https://github.com/intermine/intermine-ws-java-docs/)
 
