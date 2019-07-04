@@ -61,7 +61,7 @@ bintray {
   publish = true //[Default: false] Whether version should be auto published after an upload
   override = true //[Default: false] Whether to override version artifacts already published
   pkg {
-    repo = 'intermine'
+    repo = 'java-client'
     name = project.name
     userOrg = user
     licenses = ['LGPL-2.1']
