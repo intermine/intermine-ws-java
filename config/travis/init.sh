@@ -28,22 +28,18 @@ else
     # Install lib requirements
     pip install -r config/lib/requirements.txt
 
-    if [[ "$TEST_SUITE" = "ws" ]]; then
+    # set up database for testing
+    (cd intermine && ./gradlew createUnitTestDatabases)
 
-        # set up database for testing
-        (cd intermine && ./gradlew createUnitTestDatabases)
+    # We will need a fully operational web-application
+    echo '#---> Building and releasing web application to test against'
+    (cd testmine && ./setup.sh)
 
-        # We will need a fully operational web-application
-        echo '#---> Building and releasing web application to test against'
-        (cd testmine && ./setup.sh)
+    sleep 60 # let webapp startup
 
-        sleep 60 # let webapp startup
+    # Warm up the keyword search by requesting results, but ignoring the results
+    $GET "$TESTMODEL_URL/service/search" > /dev/null
+    # Start any list upgrades
+    $GET "$TESTMODEL_URL/service/lists?token=test-user-token" > /dev/null
 
-        # Warm up the keyword search by requesting results, but ignoring the results
-        $GET "$TESTMODEL_URL/service/search" > /dev/null
-        # Start any list upgrades
-        $GET "$TESTMODEL_URL/service/lists?token=test-user-token" > /dev/null
-
-
-    fi
 fi
