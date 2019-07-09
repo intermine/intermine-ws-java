@@ -25,7 +25,7 @@ public class ResultRowListTest extends TestCase {
     }
 
     private void init() throws Exception {
-    InputStream is = getClass().getResourceAsStream("resultrow.json");
+    InputStream is = getClass().getClassLoader().getResourceAsStream("resultrow.json");
     String input = IOUtils.toString(is);
         try {
             testData = new JSONArray(input);

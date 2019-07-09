@@ -35,7 +35,7 @@ public class RowResultSetTest extends TestCase {
 
     @Override
     public void setUp() {
-        InputStream is = getClass().getResourceAsStream("resultrowset.json");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("resultrowset.json");
         resultset = new RowResultSet(is, views);
     }
 
