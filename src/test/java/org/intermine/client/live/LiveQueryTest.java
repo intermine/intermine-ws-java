@@ -38,7 +38,7 @@ public class LiveQueryTest {
 
     @BeforeClass
     public static void oneTimeSetup() {
-        Reader reader = new InputStreamReader(LiveQueryTest.class.getResourceAsStream("queries.xml"));
+        Reader reader = new InputStreamReader(LiveQueryTest.class.getClassLoader().getResourceAsStream("queries.xml"));
         queries = PathQueryBinding.unmarshalPathQueries(reader, PathQuery.USERPROFILE_VERSION);
     }
 

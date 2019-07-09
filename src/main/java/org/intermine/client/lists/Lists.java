@@ -46,7 +46,10 @@ public final class Lists
     public static ItemList parseList(ServiceFactory fac, JSONObject data) {
         try {
             String name = data.getString("name");
-            String description = data.getString("description");
+            String description = null;
+            if (data.has("description")) {
+                description = data.getString("description");
+            }
             String type = data.getString("type");
             String status = data.optString("status", null);
             int size = data.getInt("size");

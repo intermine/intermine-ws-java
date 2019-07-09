@@ -110,7 +110,7 @@ public class LiveListTest {
     public void creationFromFile() throws URISyntaxException {
 
         ListCreationInfo info = testmine.new ListCreationInfo("Employee");
-        URL idsURL = getClass().getResource("ids.txt");
+        URL idsURL = getClass().getClassLoader().getResource("ids.txt");
         File ids = new File(idsURL.toURI());
         info.setContent(ids);
 

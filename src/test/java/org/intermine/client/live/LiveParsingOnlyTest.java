@@ -1,5 +1,6 @@
 package org.intermine.client.live;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -9,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,12 +61,19 @@ public class LiveParsingOnlyTest {
         assertTrue("The results are not empty", table.size() > 1);
         boolean found = false;
 
-        Map<String, Object> lookingFor = new HashMap<String, Object>();
-        lookingFor.put("taxon", 7227);
+        Map<String, Object> lookingFor = new LinkedHashMap<>();
         lookingFor.put("name", "Drosophila melanogaster");
+        lookingFor.put("taxon", 7227);
+
 
         for(Map<String, Object> row: table) {
-            found = lookingFor.equals(row);
+            System.out.println("row " + row.entrySet());
+            for (Map.Entry<String, Object> entry : row.entrySet()) {
+                if (entry.getValue().equals("7227")) {
+                    found = true;
+                }
+            }
+//            found = lookingFor.equals(row);
             if (found)
                 break;
         }

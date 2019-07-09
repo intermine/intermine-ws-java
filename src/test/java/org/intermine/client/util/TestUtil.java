@@ -40,7 +40,7 @@ public class TestUtil
     }
 
     public static String getRootUrl() {
-        return "http://localhost:8080/intermine-test/service";
+        return "http://localhost:8080/intermine-demo/service";
     }
 
     public static String getToken() {

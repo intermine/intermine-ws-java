@@ -26,7 +26,7 @@ import org.junit.Test;
 public class LiveCodeGenOutputTest {
 
     private String getExpectation(String resourceName) throws IOException {
-        return IOUtils.toString(getClass().getResourceAsStream(resourceName));
+        return IOUtils.toString(getClass().getClassLoader().getResourceAsStream(resourceName));
     }
 
     @Test

@@ -29,7 +29,7 @@ public class TemplateServiceTest extends TestCase
 {
 
     private final static String HOST = "http://localhost:8080";
-    private final static String PATH = "/intermine-test/service/template/results";
+    private final static String PATH = "/intermine-demo/service/template/results";
     /**
      * Checks Java client and that default parameters of template are replaced with
      * parameters provided by client.

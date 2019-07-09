@@ -29,7 +29,7 @@ import org.intermine.client.util.TestUtil;
  **/
 public class QueryServiceTest extends TestCase
 {
-    private static final String baseUrl = "http://localhost:8080/intermine-test/service";
+    private static final String baseUrl = "http://localhost:8080/intermine-demo/service";
     private static final String resourcePath = "/query/results";
 
     public void testCreatePathQuery() throws IOException {
