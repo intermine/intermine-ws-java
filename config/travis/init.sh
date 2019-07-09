@@ -30,6 +30,7 @@ else
 
     echo "#---> Getting code from github"
     $GIT_GET https://github.com/intermine/intermine.git
+    cd intermine
 
     # set up database for testing
     (cd intermine && ./gradlew createUnitTestDatabases)

@@ -10,7 +10,6 @@ package org.intermine.client.exceptions;
  *
  */
 
-import org.intermine.client.exceptions.ServiceException;
 import org.intermine.client.util.HttpConnection;
 
 import java.net.HttpURLConnection;

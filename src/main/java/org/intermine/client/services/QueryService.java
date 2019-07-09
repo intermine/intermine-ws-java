@@ -400,7 +400,7 @@ public class QueryService extends AbstractQueryService<PathQuery>
         QueryRequest request =
                 new QueryRequest(RequestType.POST, getUrl(), ContentType.APPLICATION_JSON);
         request.setPage(page);
-        if (queryXml == null || queryXml == "") {
+        if (queryXml == null || ("").equals(queryXml)) {
             throw new BadRequestException("query is empty, " + query.toString());
         }
         request.setQuery(queryXml);
