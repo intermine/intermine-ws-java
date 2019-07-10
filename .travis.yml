@@ -10,7 +10,5 @@ env:
 sudo: true
 jdk:
 - openjdk8
-before_script:
-- "./config/travis/init.sh"
 script:
 - "./config/travis/run.sh"
