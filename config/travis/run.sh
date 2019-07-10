@@ -36,13 +36,11 @@ echo "#---> Getting code from github (client)"
 cd
 ${GIT_GET} https://github.com/intermine/intermine-ws-java.git client
 
-echo "#---> Installing"
-cd client && ./gradlew install
-echo "#---> Running tests"
-./gradlew test
+echo "#---> Testing"
+cd client && ./gradlew test
 
 echo "#---> Checking test results"
-../config/lib/parse_test_report.py 'intermine'
+./config/lib/parse_test_report.py 'intermine'
 
 echo "#---> All tests passed"
 
