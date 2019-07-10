@@ -33,6 +33,9 @@ public class QueryServiceTest extends TestCase
     private static final String resourcePath = "/query/results";
 
     public void testCreatePathQuery() throws IOException {
+        System.setProperty("javax.xml.stream.XMLOutputFactory",
+                "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
+
         ModelServiceTest mst = new ModelServiceTest();
         Model model = mst.getModelService().getModel();
         PathQuery query = new PathQuery(model);
@@ -58,6 +61,9 @@ public class QueryServiceTest extends TestCase
     }
 
     public void testGetResultPathQuery() throws IOException {
+        System.setProperty("javax.xml.stream.XMLOutputFactory",
+                "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
+
         DummyQueryService queryService = TestUtil.getQueryService();
         PathQuery query = queryService.createPathQuery(getSimpleXml());
 

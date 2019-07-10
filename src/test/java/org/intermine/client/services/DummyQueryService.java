@@ -34,7 +34,7 @@ public class DummyQueryService extends QueryService
      * Set a fake response, for testing purposes. Allows fake http responses to be inserted into
      * this object, so that testing does not require a real server to be set up.
      *
-     * @param fakeResponses a String
+     * @param fakeResponse a String
      */
     public void setFakeResponse(String fakeResponse) {
         this.fakeResponse = fakeResponse;

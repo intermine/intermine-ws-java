@@ -61,19 +61,12 @@ public class LiveParsingOnlyTest {
         assertTrue("The results are not empty", table.size() > 1);
         boolean found = false;
 
-        Map<String, Object> lookingFor = new LinkedHashMap<>();
-        lookingFor.put("name", "Drosophila melanogaster");
-        lookingFor.put("taxon", 7227);
-
-
         for(Map<String, Object> row: table) {
-            System.out.println("row " + row.entrySet());
             for (Map.Entry<String, Object> entry : row.entrySet()) {
                 if (entry.getValue().equals("7227")) {
                     found = true;
                 }
             }
-//            found = lookingFor.equals(row);
             if (found)
                 break;
         }

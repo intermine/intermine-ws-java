@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.intermine.pathquery.Constraints;
 import org.intermine.pathquery.PathQuery;
@@ -386,24 +387,29 @@ public class LiveListTest {
 
     @Test
     public void renaming() {
-        ListCreationInfo info = testmine.new ListCreationInfo("Employee", "to-be-renamed");
+        // keep getting an error saying that this list already exists.
+        // I guess the state is wrong?
+        //ListCreationInfo info = testmine.new ListCreationInfo("Employee", "to-be-renamed");
+        String toBeRenamed = java.util.UUID.randomUUID().toString();
+        ListCreationInfo info = testmine.new ListCreationInfo("Employee", toBeRenamed);
         info.setContent(Arrays.asList("Anne", "Brenda", "Carol", "David", "Edgar"));
         info.addTag("java-list");
 
         ItemList newList = testmine.createList(info);
         tempLists.add(newList);
 
-        assertEquals("to-be-renamed", newList.getName());
+        assertEquals(toBeRenamed, newList.getName());
 
         newList.rename("has-been-renamed");
 
         assertEquals("has-been-renamed", newList.getName());
-        assertNull(testmine.getList("to-be-renamed"));
+        assertNull(testmine.getList(toBeRenamed));
     }
 
     @Test
     public void tagging() {
-        ListCreationInfo info = testmine.new ListCreationInfo("Employee", "to-be-tagged");
+        String toBeTagged = java.util.UUID.randomUUID().toString();
+        ListCreationInfo info = testmine.new ListCreationInfo("Employee", toBeTagged);
         info.setContent(Arrays.asList("Anne", "Brenda", "Carol", "David", "Edgar"));
         info.addTag("java-list");
 
