@@ -23,3 +23,5 @@ echo "#---> Set up database for testing"
 
 echo '#---> Building and releasing web application to test against'
 cd testmine && ./setup.sh
+
+sleep 60 # let webapp startup
