@@ -239,8 +239,6 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
      * @return The template with the given name.
      */
     public TemplateQuery getTemplate(String name) {
-        System.setProperty("javax.xml.stream.XMLOutputFactory",
-                "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
         return getTemplates().get(name);
     }
 
@@ -258,9 +256,6 @@ public class TemplateService extends AbstractQueryService<TemplateQuery>
         if (type == null) {
             throw new NullPointerException("'type' is null in getTemplatesForType");
         }
-        System.setProperty("javax.xml.stream.XMLOutputFactory",
-                "com.sun.xml.internal.stream.XMLOutputFactoryImpl");
-
         Model m = getFactory().getModel();
         Map<String, TemplateQuery> templates = getTemplates();
         Set<TemplateQuery> res = new HashSet<TemplateQuery>();
