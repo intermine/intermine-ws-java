@@ -42,8 +42,8 @@ else
     sleep 60 # let webapp startup
 
     # Warm up the keyword search by requesting results, but ignoring the results
-    $GET "$TESTMODEL_URL/service/search" > /dev/null
+    #$GET "$TESTMODEL_URL/service/search" > /dev/null
     # Start any list upgrades
-    $GET "$TESTMODEL_URL/service/lists?token=test-user-token" > /dev/null
+    #$GET "$TESTMODEL_URL/service/lists?token=test-user-token" > /dev/null
 
 fi
