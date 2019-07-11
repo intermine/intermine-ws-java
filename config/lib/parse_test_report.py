@@ -13,7 +13,7 @@ total_failure_count = 0
 total_test_count = 0
 
 for project_directory in os.walk(directory).next()[1]:
-    tests_path = path.join(directory, project_directory, 'build/reports/tests/test')
+    tests_path = path.join(directory, project_directory, 'build/test-results/test')
 
     if not path.isdir(tests_path):
         # print('Ignoring %s as it does not exist' % tests_path)
