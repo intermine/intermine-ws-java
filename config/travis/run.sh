@@ -40,7 +40,7 @@ echo "#---> Testing"
 (cd client && ./gradlew test)
 
 echo "#---> Checking test results"
-./config/lib/parse_test_report.py 'client'
+./client/config/lib/parse_test_report.py 'client'
 
 echo "#---> All tests passed"
 
