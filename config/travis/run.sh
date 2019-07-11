@@ -39,9 +39,9 @@ ${GIT_GET} https://github.com/intermine/intermine-ws-java.git client
 echo "#---> Testing"
 cd client && ./gradlew test
 
-echo "#---> Checking test results"
-./config/lib/parse_test_report.py 'intermine'
+#echo "#---> Checking test results"
+#./config/lib/parse_test_report.py 'intermine'
 
-echo "#---> All tests passed"
+#echo "#---> All tests passed"
 
 
