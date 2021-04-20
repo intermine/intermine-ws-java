@@ -10,10 +10,14 @@ package org.intermine.client.core;
  *
  */
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 
 import org.intermine.client.exceptions.ServiceException;
 import org.intermine.client.util.HttpConnection;
@@ -283,20 +287,14 @@ public class Service
         }
         String res = null;
         try {
-            res = connection.getResponseBodyAsString().trim();
+            InputStream inputStream = connection.getResponseBodyAsStream();
+            res = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name()).trim();
+        } catch (IOException ex) {
+            throw new ServiceException("");
         } finally {
             connection.close();
         }
         return res;
-    }
-
-    /**
-     * Performs the request and returns the result as a string.
-     * @param request The Request object
-     * @return a string containing the body of the response
-     */
-    protected String getStringResponse(Request request) {
-        return getStringResponse(request, null);
     }
 
     /**
@@ -306,7 +304,7 @@ public class Service
      * @return an integer.
      */
     protected int getIntResponse(Request request) {
-        String body = getStringResponse(request);
+        String body = getStringResponse(request, null);
         if (body.length() == 0) {
             throw new ServiceException("The server didn't return any results");
         }

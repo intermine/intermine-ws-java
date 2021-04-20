@@ -13,6 +13,7 @@ package org.intermine.client.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -29,6 +30,7 @@ import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.io.IOUtils;
 import org.intermine.client.core.MultiPartRequest;
 import org.intermine.client.core.Request;
 import org.intermine.client.core.Request.RequestType;
@@ -296,7 +298,9 @@ public class HttpConnection
         }
         String res = null;
         try {
-            res = executedMethod.getResponseBodyAsString();
+            //res = executedMethod.getResponseBodyAsString();
+            InputStream inputStream = executedMethod.getResponseBodyAsStream();
+            res = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
         } catch (IOException e) {
             throw new ServiceException(e);
         } finally {

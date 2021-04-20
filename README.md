@@ -1,5 +1,5 @@
-# InterMine Webservice Client 3.0
-3 July 2019
+# InterMine Webservice Client 3.1.0
+April 2021
 
 This Java client library is for use with Web services
 attached to InterMine data-warehouses. It abstracts
@@ -12,17 +12,17 @@ REST interface.
 ### Maven
 
 ```
-<!-- https://bintray.com/intermineorg/java-client-->
+<!-- maven central-->
 <dependency>
     <groupId>org.intermine</groupId>
     <artifactId>intermine-ws-java</artifactId>
-    <version>3.0.0</version>
+    <version>3.1.0</version>
 </dependency>
 ```
 ### Gradle
 
 ```
-compile 'org.intermine:intermine-ws-java:3.0.0'
+compile 'org.intermine:intermine-ws-java:3.1.0'
 ```
 
 ## Documentation
