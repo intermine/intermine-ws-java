@@ -9,6 +9,8 @@ export GRADLE_OPTS='-server -Dorg.gradle.daemon=false'
 ####################
 # set up test mine #
 ####################
+sudo -u postgres createuser test
+sudo -u postgres psql -c "alter user test with encrypted password 'test';"
 
 echo "#---> Getting code from github (for testmine)"
 ${GIT_GET} https://github.com/intermine/intermine.git

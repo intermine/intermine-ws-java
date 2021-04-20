@@ -45,5 +45,5 @@ jobs:
         sudo apt-get update -y
         sudo apt-get install -y libpq-dev postgresql-client
         sudo service postgresql start
-    #- name: Run java client tests
-    #  run: ./config/travis/run.sh
+    - name: Run java client tests
+      run: ./config/ci/run.sh
