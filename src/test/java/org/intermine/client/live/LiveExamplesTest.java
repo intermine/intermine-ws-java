@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class LiveExamplesTest {
 
-    private static final String serviceRootUrl = "http://www.flymine.org/query/service";
+    private static final String serviceRootUrl = "https://www.flymine.org/flymine/service";
     private PrintWriter out;
     private StringWriter sw;
 

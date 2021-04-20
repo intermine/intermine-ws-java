@@ -26,7 +26,7 @@ import org.intermine.client.services.WidgetService;
  *
  * <pre>
  *   ServiceFactory serviceFactory =
- *      new ServiceFactory("http://www.flymine.org/query/service", "MyApp")
+ *      new ServiceFactory("https://www.flymine.org/flymine/service", "MyApp")
  *   QueryService queryService = serviceFactory.getQueryService()
  *
  *      ...
