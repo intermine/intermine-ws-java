@@ -6,12 +6,15 @@ GIT_GET="git clone --single-branch --depth 1"
 
 export GRADLE_OPTS='-server -Dorg.gradle.daemon=false'
 
+export PSQL_USER=test
+export PSQL_PWD=test
+export KEYSTORE=${PWD}/keystore.jks
+
 ####################
 # set up test mine #
 ####################
 sudo -u postgres createuser test
 sudo -u postgres psql -c "alter user test with encrypted password 'test';"
-export KEYSTORE=${PWD}/keystore.jks
 
 echo "#---> Getting code from github (for testmine)"
 ${GIT_GET} https://github.com/intermine/intermine.git
