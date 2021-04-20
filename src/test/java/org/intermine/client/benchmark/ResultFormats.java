@@ -19,7 +19,7 @@ import org.junit.Test;
 
 public class ResultFormats {
 
-    private static final String baseUrl = "http://beta.flymine.org/beta/service";
+    private static final String baseUrl = "https://beta.flymine.org/flymine/service";
     private static final QueryService flymine = new ServiceFactory(baseUrl).getQueryService();
 
     private PathQuery query;

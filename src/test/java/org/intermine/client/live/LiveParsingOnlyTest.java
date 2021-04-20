@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class LiveParsingOnlyTest {
 
-    private String uri = "http://beta.flymine.org/beta/service/query/results?"
+    private String uri = "https://beta.flymine.org/flymine/service/query/results?"
             + "query=%3Cquery+name%3D%22%22+model%3D%22genomic%22+view%3D%22Organism.taxonId+"
             + "Organism.name%22+sortOrder%3D%22Organism.taxonId+asc%22%3E%3C%2Fquery%3E";
 
