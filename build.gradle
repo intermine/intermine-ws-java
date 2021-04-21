@@ -6,12 +6,13 @@ apply plugin: "checkstyle"
 sourceSets {
   main {
     java {
-      srcDirs = ['src/main/java', 'build/gen']
+      srcDirs = ['src/main/java']
     }
     resources {
       srcDirs = ['src/main/resources']
     }
   }
+
   test {
     java {
       srcDirs = ['src/test/java']
@@ -21,7 +22,6 @@ sourceSets {
     }
   }
 }
-
 
 group 'org.intermine'
 version '3.1.0'
