@@ -36,15 +36,22 @@ public class LiveExamplesTest {
             "Chromosome.primaryIdentifier\tChromosome.organism.name\t" +
             "Chromosome.locatedFeatures.feature.gene.primaryIdentifier\t" +
             "Chromosome.locatedFeatures.feature.transcripts.primaryIdentifier\t" +
-            "Chromosome.locatedFeatures.feature.primaryIdentifier\n";
+            "Chromosome.locatedFeatures.feature.primaryIdentifier\t" +
+            "Chromosome.locatedFeatures.start\t" +
+            "Chromosome.locatedFeatures.end\n";
+
     private static final String EXPECTED_TEMPLATE_BODY =
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0300689\tFBgn0031208:1\n" +
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0300689\tFBgn0031208:3\n" +
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0300690\tFBgn0031208:1\n" +
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0300690\tFBgn0031208:2\n" +
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0300690\tFBgn0031208:5\n" +
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0330654\tFBgn0031208:1\n" + 
-            "2L\tDrosophila melanogaster\tFBgn0031208\tFBtr0330654\tFBgn0031208:4\n";
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0078166\tFBgn0002121:17\t21136\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0078167\tFBgn0002121:16\t21066\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0078168\tFBgn0002121:16\t21066\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0078169\tFBgn0002121:15\t21066\t21200\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0078169\tFBgn0002121:18\t21349\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0306589\tFBgn0002121:17\t21136\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0306590\tFBgn0002121:17\t21136\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0306591\tFBgn0002121:16\t21066\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0306592\tFBgn0002121:14\t20831\t20973\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0306592\tFBgn0002121:16\t21066\t21376\n" +
+            "2L\tDrosophila melanogaster\tFBgn0002121\tFBtr0330655\tFBgn0002121:16\t21066\t21376\n";
 
     private static final String EXPECTED_QUERY_RESULTS =
             "There are 1 results for this query\n" +
@@ -67,8 +74,8 @@ public class LiveExamplesTest {
 
         // You only need to specify the values of the constraints you wish to alter:
 
-        template.replaceConstraint(template.getConstraintForCode("B"),
-        Constraints.eq("Chromosome.primaryIdentifier", "2L"));
+        template.replaceConstraint(template.getConstraintForCode("C");
+        Constraints.greaterThanEqualTo("Chromosome.locatedFeatures.start", "20000"));
 
         Iterator<List<Object>> resultSet = templateService.getRowListIterator(template, new Page(0, 10));
 
@@ -92,8 +99,8 @@ public class LiveExamplesTest {
         List<TemplateParameter> parameters = new ArrayList<TemplateParameter>();
         parameters.add(new TemplateParameter("Chromosome.organism.name", "=", "*melanogaster", null));
         parameters.add(new TemplateParameter("Chromosome.primaryIdentifier", "=", "2L", null));
-        parameters.add(new TemplateParameter("Chromosome.locatedFeatures.start", ">=", "1", null));
-        parameters.add(new TemplateParameter("Chromosome.locatedFeatures.end", "<", "10000", null));
+        parameters.add(new TemplateParameter("Chromosome.locatedFeatures.start", ">=", "20000", null));
+        parameters.add(new TemplateParameter("Chromosome.locatedFeatures.end", "<=", "22000", null));
 
         Iterator<List<Object>> resultSet = templateService.getRowListIterator(templateName, parameters,
                                               new Page(0, 10));

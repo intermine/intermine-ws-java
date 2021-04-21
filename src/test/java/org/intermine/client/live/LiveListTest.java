@@ -75,13 +75,13 @@ public class LiveListTest {
     @Test
     public void listMap() {
         Map<String, ItemList> lists = testmine.getListMap();
-        ItemList favs = lists.get("My-Favourite-Employees");
-        assertEquals(favs.getSize(), 4);
+        ItemList favs = lists.get("Everyones-Favourite-Employees");
+        assertEquals(7, favs.getSize());
     }
 
     @Test
     public void status() {
-        ItemList favs = testmine.getList("My-Favourite-Employees");
+        ItemList favs = testmine.getList("Everyones-Favourite-Employees");
         assertEquals("CURRENT", favs.getStatus());
     }
 
