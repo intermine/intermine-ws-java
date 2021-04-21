@@ -1,17 +1,6 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-
-  dependencies {
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0"
-    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.6.2"
-  }
-}
-
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: "signing"
 apply plugin: "checkstyle"
 
 sourceSets {
@@ -41,7 +30,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
   
 repositories {
-  jcenter()
+  mavenLocal()
   mavenCentral()
 }
 
@@ -120,27 +109,51 @@ artifacts {
   archives javadocJar
 }
 
-bintray {
-  user = System.getenv('BINTRAY_USER')
-  key = System.getenv('BINTRAY_KEY')
-  dryRun = false //[Default: false] Whether to run this as dry-run, without deploying
-  publish = true //[Default: false] Whether version should be auto published after an upload
-  override = true //[Default: false] Whether to override version artifacts already published
-  pkg {
-    repo = 'java-client'
-    name = project.name
-    userOrg = user
-    licenses = ['LGPL-2.1']
-    vcsUrl = 'https://github.com/intermine/intermine-ws-java.git'
-    publicDownloadNumbers = true
-    version {
-      name = '3.0.0'
-      desc = 'InterMine 3.0.0'
-      vcsTag = 'java-client-3.0.0'
+signing {
+  required { gradle.taskGraph.hasTask("publish") }
+  sign configurations.archives
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+      repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+        authentication(userName: ossrhUsername, password: ossrhPassword)
+      }
+
+      pom.project {
+        name project.name
+        packaging 'jar'
+        description 'InterMine Java Client'
+        url 'https://github.com/intermine/intermine'
+
+        scm {
+          connection 'scm:git:git://github.com/intermine/intermine-ws-java.git'
+          developerConnection 'scm:git:ssh://github.com:intermine/intermine-ws-java.git'
+          url 'https://github.com/intermine/intermine-ws-java.git'
+        }
+
+        licenses {
+          license {
+            name 'LGPL-2.1'
+            url 'https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt'
+          }
+        }
+
+        developers {
+          developer {
+            name 'InterMine core team and contributors'
+          }
+        }
+      }
     }
   }
-
-  configurations = ['archives']
 }
 
 

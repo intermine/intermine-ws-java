@@ -1,0 +1,20 @@
+/*
+ * Copyright (C) 2002-2021 FlyMine
+ *
+ * This code may be freely distributed and modified under the
+ * terms of the GNU Lesser General Public Licence.  This should
+ * be distributed with the code.  See the LICENSE file for more
+ * information or http://www.gnu.org/copyleft/lesser.html.
+ *
+ */ 
+InterMine WS Java Client 3.1.0 (April 2021)
+
+- Moved CI tests to github Actions
+- Remove depency on jcenter
+- Added signin plugin to publich on Maven Central
+- Fixed failing tests
+- Dependency on im-5.0.0
+
+InterMine WS Java Client 3.0.0 (July 2019)
+- Publication on jcenter
+
