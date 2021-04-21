@@ -75,7 +75,7 @@ public class LiveExamplesTest {
         // You only need to specify the values of the constraints you wish to alter:
 
         template.replaceConstraint(template.getConstraintForCode("C"));
-        Constraints.greaterThanEqualTo("Chromosome.locatedFeatures.start", "20000"));
+        Constraints.greaterThanEqualTo("Chromosome.locatedFeatures.start", "20000");
 
         Iterator<List<Object>> resultSet = templateService.getRowListIterator(template, new Page(0, 10));
 
