@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"org.intermine.client.core"},{"l":"org.intermine.client.exceptions"},{"l":"org.intermine.client.lists"},{"l":"org.intermine.client.results"},{"l":"org.intermine.client.services"},{"l":"org.intermine.client.template"},{"l":"org.intermine.client.util"},{"l":"org.intermine.client.widget"}]

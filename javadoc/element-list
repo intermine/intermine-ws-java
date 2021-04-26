@@ -1,0 +1,8 @@
+org.intermine.client.core
+org.intermine.client.exceptions
+org.intermine.client.lists
+org.intermine.client.results
+org.intermine.client.services
+org.intermine.client.template
+org.intermine.client.util
+org.intermine.client.widget
