@@ -1,6 +1,5 @@
 bin/
 dist/
-javadoc/
 client-dist/
 build/
 client-build/
