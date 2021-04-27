@@ -159,6 +159,7 @@ uploadArchives {
 task generateInterMineJavadoc(type: Javadoc) {
   group "InterMine"
   description = "Generates javadoc in a different location"
+  title = "InterMine Web Service Client 3.1.0"
   source = sourceSets.main.java.srcDirs
   classpath = sourceSets.main.runtimeClasspath
   destinationDir = new File("$rootProject.projectDir/javadoc")
