@@ -95,7 +95,7 @@ public final class Lists
             if (jo.has("unmatchedIdentifiers")) {
                 JSONArray badIds = jo.getJSONArray("unmatchedIdentifiers");
                 for (int i = 0; i < badIds.length(); i++) {
-                    il.addUnmatchedId(badIds.getString(i));
+                    il.addUnmatchedId(badIds.optString(i));
                 }
             }
             return il;
